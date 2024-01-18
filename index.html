@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- displays site properly based on user's device -->
+
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./assets/images/favicon-32x32.png"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Ubuntu|Lora"
+    />
+    <title>Frontend Mentor | Multi-step form</title>
+
+    <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+      }
+      .attribution {
+        font-size: 11px;
+        text-align: center;
+      }
+      .attribution a {
+        color: hsl(228, 45%, 44%);
+      }
+      body {
+        font-family: "Ubuntu", sans-serif;
+        background-color: hsl(206, 94%, 87%);
+      }
+      .form-box {
+        display: flex;
+        width: 60vw;
+        height: 90%;
+        margin: 10vh 20vw;
+        background-color: hsl(0, 0%, 100%);
+        border-radius: 10px;
+        padding: 0.5%;
+      }
+      .side-bar {
+        background-image: url(assets/images/bg-sidebar-desktop.svg);
+        width: 25%;
+        background-size: contain;
+        background-repeat: no-repeat;
+        padding: 4% 3%;
+      }
+      .side-bar span {
+        border: 1px solid hsl(231, 100%, 99%);
+        border-radius: 50%;
+        padding: 8px 11px;
+        font-size: 10px;
+        align-self: center;
+        grid-area: number;
+        width: 8px;
+        margin: 0;
+        text-align: center;
+        color: hsl(231, 100%, 99%);
+      }
+      #step-1 span {
+        background-color: hsl(206, 94%, 87%);
+        color: #000;
+      }
+      .side-bar p {
+        font-size: 16px;
+        color: hsla(228, 100%, 99%, 0.596);
+        grid-area: para;
+        padding: 0;
+        margin: 0;
+      }
+      .side-bar h1 {
+        grid-area: text;
+        font-size: 20px;
+        color: hsl(231, 100%, 99%);
+        padding: 0;
+        margin: 0;
+      }
+      #step-1,
+      #step-2,
+      #step-3,
+      #step-4 {
+        display: grid;
+        grid-template-areas: "number para para para para para" "number text text text text text";
+        text-align: left;
+        margin-bottom: 15px;
+        cursor: pointer;
+      }
+
+      .sidebar-end {
+        padding: 2% 7%;
+      }
+      .sidebar-end .subtext {
+        color: hsl(231, 11%, 63%);
+        padding-bottom: 5%;
+      }
+      .sidebar-end .header {
+        margin: 2% 0 0.5%;
+      }
+      .sidebar-end form .label {
+        font-size: 16px;
+        font-weight: 500;
+        padding: 1% 0;
+        text-transform: capitalize;
+        display: block;
+        margin-top: 2.5%;
+      }
+      #lab {
+        display: flex;
+        justify-content: space-between;
+        width: 90%;
+      }
+      #lab .email-error,
+      #lab .pError {
+        align-self: center;
+        color: hsl(4, 100%, 67%);
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .label ~ input {
+        width: 90%;
+        padding: 1.5%;
+      }
+      .input-error {
+        border: 1px solid hsl(4, 100%, 67%);
+        padding: 1.5%;
+        cursor: pointer;
+        width: 90%;
+      }
+      .label ~ input:last-child {
+        margin-bottom: 27%;
+      }
+      .bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .next-step {
+        background-color: hsl(213, 96%, 18%);
+        padding: 2% 3%;
+        color: hsl(0, 0%, 100%);
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      .billing {
+        display: flex;
+        justify-content: space-between;
+        gap: 3%;
+      }
+      .billing .plans {
+        border: 1px solid hsl(206, 94%, 87%);
+        height: 20vh;
+        width: 25%;
+        padding: 20px 15px;
+        border-radius: 15px;
+        cursor: pointer;
+      }
+      .billing .plans:hover {
+        border: 1px solid hsl(243, 100%, 62%);
+      }
+      .plans-active {
+        border: 1px solid hsl(243, 100%, 62%);
+        background-color: hsla(206, 94%, 87%, 0.301);
+        height: 20vh;
+        width: 25%;
+        padding: 15px;
+        border-radius: 15px;
+        cursor: pointer;
+      }
+      .free-months {
+        font-size: 14px;
+        font-weight: 700;
+        padding-bottom: 5%;
+      }
+      .billing .plans .plan {
+        margin-top: 6vh;
+      }
+      .billing ~ .toggle {
+        display: flex;
+        justify-content: center;
+        margin: 5% 0 25%;
+        background-color: hsla(206, 94%, 87%, 0.301);
+        padding: 3% 0;
+        border-radius: 7px;
+        gap: 5%;
+      }
+      .sidebar-end .go-back {
+        color: hsl(231, 11%, 63%);
+      }
+      .toggle .toggler {
+        position: relative;
+        display: inline-block;
+        width: 35px;
+        height: 15px;
+        background-color: hsl(213, 96%, 18%);
+        border-radius: 30px;
+      }
+      .toggle .toggler::after {
+        content: "";
+        position: absolute;
+        width: 12px;
+        height: 11px;
+        border-radius: 50%;
+        background-color: hsl(0, 0%, 100%);
+        top: 2px;
+        left: 2px;
+        transition: all 0.5s;
+      }
+      .checkbox:checked ~ .toggler::after {
+        left: 21px;
+      }
+
+      .checkbox {
+        position: relative;
+        transform: translateY(20px);
+        width: 37px;
+        height: 17px;
+        z-index: 99;
+        opacity: 0;
+      }
+      .toggle-box {
+        width: 35px;
+        padding: 0;
+        margin: 0;
+        height: 15px;
+        transform: translateY(-20px);
+      }
+      .monthly {
+        font-weight: 700;
+      }
+      .add-ons {
+        display: grid;
+        grid-template-areas: "checkbox pickhead pickhead pickhead pickhead amount" "checkbox pickp pickp pickp pickp amount";
+        border: 1px solid hsl(206, 94%, 87%);
+        padding: 3% 5%;
+        margin-top: 3%;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+      .add-ons label {
+        grid-area: checkbox;
+        align-self: center;
+      }
+      .add-ons .pick-head {
+        grid-area: pickhead;
+        padding-left: 5%;
+      }
+      .add-ons .pick-p {
+        grid-area: pickp;
+        padding-left: 5%;
+      }
+      .add-ons .amount {
+        grid-area: amount;
+        align-self: center;
+        justify-self: end;
+      }
+      .addon-active {
+        background-color: hsla(206, 94%, 87%, 0.301);
+        display: grid;
+        grid-template-areas: "checkbox pickhead pickhead pickhead pickhead amount" "checkbox pickp pickp pickp pickp amount";
+        border: 1px solid hsl(243, 100%, 62%);
+        padding: 3% 5%;
+        margin-top: 3%;
+        border-radius: 10px;
+      }
+
+      #last {
+        margin-bottom: 18%;
+      }
+      #sidebar-end-5 {
+        text-align: center;
+        margin-top: 25%;
+      }
+      #sidebar-end-5 img {
+        width: 50px;
+        height: 50px;
+        margin-bottom: 5%;
+      }
+      #sidebar-end-5 h1 {
+        margin-bottom: 2%;
+        text-align: center;
+      }
+      #sidebar-end-5 p {
+        color: hsl(231, 11%, 63%);
+        text-align: center;
+        margin-bottom: 25%;
+      }
+      #sidebar-end-2,
+      #sidebar-end-3,
+      #sidebar-end-4,
+      #sidebar-end-5 {
+        display: none;
+      }
+      .sidebars {
+        width: 30vw;
+      }
+      .confirm {
+        background-color: hsl(213, 96%, 18%);
+        padding: 2% 3%;
+        color: hsl(0, 0%, 100%);
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      #online-service,
+      #storage,
+      #total,
+      #cosProfile {
+        display: flex;
+        justify-content: space-between;
+        padding: 2% 0;
+      }
+      .bill-1 {
+        display: grid;
+        grid-template-areas: "billHead billHead billHead billHead billHead billAmount" "change change change change change billAmount";
+        padding: 3% 0;
+      }
+      .bill-head {
+        grid-area: billHead;
+        font-size: 100%;
+        text-transform: capitalize;
+        font-weight: 700;
+      }
+      .change {
+        grid-area: change;
+        padding: 1% 0;
+        text-transform: capitalize;
+        text-decoration: underline;
+      }
+      .bill-amount {
+        grid-area: billAmount;
+        justify-self: end;
+        align-self: center;
+        font-weight: 700;
+        font-size: 120%;
+      }
+      .finish-box p {
+        color: hsl(231, 11%, 63%);
+        font-size: 14px;
+        text-transform: capitalize;
+      }
+      .bills {
+        background-color: hsla(206, 94%, 87%, 0.301);
+        padding: 2% 4%;
+        border-radius: 5px;
+      }
+      #total {
+        padding: 3% 4%;
+        margin-bottom: 27%;
+      }
+      .total-amount {
+        font-size: 130%;
+        color: hsl(243, 100%, 62%);
+        font-weight: 700;
+      }
+      .choosen {
+        padding: 0;
+        margin: 0;
+      }
+      .change {
+        cursor: pointer;
+      }
+      @media (max-width: 375px) {
+        * {
+          padding: 0;
+          margin: 0;
+        }
+        body {
+          background-color: transparent;
+          padding: 0;
+          margin: 0;
+        }
+        .form-box {
+          display: block;
+          width: 120%;
+          height: 85vh;
+          margin: 0;
+          position: relative;
+          background-color: hsl(206, 94%, 87%);
+          margin-bottom: 30%;
+        }
+        .side-bar {
+          margin: 0;
+          display: flex;
+          width: 100%;
+          height: 25vh;
+          background-image: url(assets/images/bg-sidebar-mobile.svg);
+          background-size: contain;
+          justify-content: center;
+          gap: 3%;
+        }
+        .side-bar p,
+        .side-bar h1 {
+          display: none;
+        }
+        .side-bar span {
+          align-self: flex-start;
+          margin-top: 50%;
+        }
+        .sidebar-end {
+          width: 70%;
+          height: auto;
+          z-index: 99;
+          position: absolute;
+          top: 15%;
+          margin: 0 10%;
+          background-color: hsl(0, 0%, 100%);
+          border-radius: 15px;
+          padding: 7% 5%;
+        }
+        .bottom {
+          position: absolute;
+          bottom: 0;
+          gap: 30vw;
+          justify-content: space-between;
+          transform: translate(-5%, 250%);
+        }
+        .bottom:first-of-type {
+          transform: translateY(450%);
+          gap: 45vw;
+          justify-content: space-between;
+        }
+        #nextie {
+          width: 27vw;
+        }
+        .next-step {
+          padding: 4%;
+          border-radius: 2px;
+          width: 23vw;
+          font-size: 90%;
+        }
+        .go-back {
+          width: 30vw;
+        }
+        #sidebar-end-1,
+        #sidebar-end-2,
+        #sidebar-end-3,
+        #sidebar-end-4,
+        #sidebar-end-5 {
+          width: 100%;
+        }
+        .sidebar-end h1 {
+          font-size: 150%;
+        }
+        .label ~ input:last-child {
+          margin-bottom: 0;
+        }
+        .label ~ input {
+          margin-bottom: 5%;
+          height: 25px;
+          padding-left: 5%;
+        }
+        #lab .label {
+          font-weight: 450;
+        }
+
+        .billing {
+          display: block;
+          margin: 0;
+          padding: 0;
+          max-height: 90%;
+        }
+        .billing .plans {
+          border: 1px solid hsl(206, 94%, 87%);
+          height: 10%;
+          width: 90%;
+          padding: 20px 15px;
+          border-radius: 10px;
+          cursor: pointer;
+          margin-bottom: 5%;
+          display: grid;
+          grid-template-areas: "img headd headd headd headd headd" "img par par par par par" "img free free free free free";
+          align-content: center;
+        }
+        .billing .plans .plan {
+          margin-top: 0;
+          margin: 0;
+          padding: 0;
+        }
+        .billing .plans img {
+          grid-area: img;
+        }
+        .billing .plans h3 {
+          grid-area: headd;
+          margin: 0;
+          padding: 0;
+        }
+        .billing .plans p {
+          grid-area: par;
+          margin: 0;
+          padding: 0;
+        }
+        .billing .plans .free-months {
+          grid-area: free;
+          margin: 0;
+          padding: 0;
+        }
+        .billing ~ .toggle {
+          margin: 0;
+        }
+        .billing .plans:last-of-type {
+          margin-bottom: 0;
+        }
+
+        #last {
+          margin-bottom: 0;
+        }
+        .confirm {
+          background-color: hsl(243, 100%, 62%);
+          padding: 5% 7%;
+          color: hsl(0, 0%, 100%);
+          border-radius: 4px;
+          cursor: pointer;
+        }
+        #last-bottom {
+          transform: translateY(450%);
+          gap: 40vw;
+          justify-content: space-between;
+        }
+        .attribution {
+          display: none;
+        }
+        .free-months {
+          padding-bottom: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Sidebar start -->
+    <div class="form-box">
+      <div class="side-bar">
+        <div id="step-1" class="side">
+          <span>1</span>
+          <p>Step 1</p>
+          <h1>Your info</h1>
+        </div>
+        <div id="step-2" class="side">
+          <span>2</span>
+          <p>Step 2</p>
+          <h1>Select plan</h1>
+        </div>
+        <div id="step-3" class="side">
+          <span>3</span>
+          <p>Step 3</p>
+          <h1>Add-ons</h1>
+        </div>
+        <div id="step-4" class="side">
+          <span>4</span>
+          <p>Step 4</p>
+          <h1>Summary</h1>
+        </div>
+      </div>
+
+      <!-- Sidebar end -->
+
+      <!-- Step 1 start -->
+      <div class="sidebar-end">
+        <div id="sidebar-end-1" class="sidebars">
+          <h1 class="header">Personal info</h1>
+          <p class="subtext">
+            Please provide your name, email address, and phone number.
+          </p>
+          <form>
+            <label class="label"> Name</label
+            ><input
+              type="text"
+              placeholder="e.g Stephen King"
+              class="name-input"
+            />
+            <div id="lab">
+              <label class="label"> email address </label>
+              <span class="email-error"></span>
+            </div>
+            <input
+              type="text"
+              class="email-input"
+              placeholder="e.g. stephenking@lorem.com"
+            />
+            <div id="lab">
+              <label class="label"> Phone Number </label>
+              <span class="pError"></span>
+            </div>
+            <input
+              type="number"
+              placeholder="e.g. +1 234 567 890"
+              class="phone-input"
+            />
+          </form>
+          <div class="bottom">
+            <div></div>
+            <div class="next-step" id="nextie">Next Step</div>
+          </div>
+        </div>
+
+        <!-- Step 1 end -->
+
+        <!-- Step 2 start -->
+        <div id="sidebar-end-2" class="sidebars">
+          <h1 class="header">Select your plan</h1>
+          <p class="subtext">
+            You have the option of monthly or yearly billing.
+          </p>
+          <div class="billing">
+            <div class="plans">
+              <img src="assets/images/icon-arcade.svg" alt="Arcade" />
+              <h3 class="plan arcade">Arcade</h3>
+              <p class="price arPrice">$9/mo</p>
+              <div class="free-months"></div>
+            </div>
+            <div class="plans">
+              <img src="assets/images/icon-advanced.svg" alt="Advanced" />
+              <h3 class="plan advanced">Advanced</h3>
+              <p class="price adPrice">$12/mo</p>
+              <div class="free-months"></div>
+            </div>
+            <div class="plans">
+              <img src="assets/images/icon-pro.svg" alt="Pro" />
+              <h3 class="plan pro">Pro</h3>
+              <p class="price prPrice">$15/mo</p>
+              <div class="free-months"></div>
+            </div>
+          </div>
+          <div class="toggle">
+            <div class="monthly">Monthly</div>
+            <div class="toggle-box">
+              <input type="checkbox" class="checkbox" />
+              <span class="toggler"></span>
+            </div>
+            <div class="yearly">Yearly</div>
+          </div>
+          <div class="bottom">
+            <div class="go-back">Go Back</div>
+            <div class="next-step">Next Step</div>
+          </div>
+        </div>
+        <!-- Step 2 end
+
+        <!-- Step 3 start -->
+        <div id="sidebar-end-3" class="sidebars">
+          <h1 class="header">Pick add-ons</h1>
+          <p class="subtext">Add-ons help enhance your gaming experience.</p>
+          <div class="add-ons">
+            <label
+              ><input type="checkbox" class="tick" /><span
+                class="customize"
+              ></span
+            ></label>
+            <h3 class="pick-head onService">Online service</h3>
+            <p class="pick-p">Access to multiplayer games</p>
+            <span class="amount amount1">+$1/mo</span>
+          </div>
+          <div class="add-ons">
+            <label
+              ><input type="checkbox" class="tick" /><span
+                class="customize"
+              ></span
+            ></label>
+            <h3 class="pick-head largStorage">Larger storage</h3>
+            <p class="pick-p">Extra 1TB of cloud save</p>
+            <span class="amount amount2">+$2/mo</span>
+          </div>
+          <div class="add-ons" id="last">
+            <label
+              ><input type="checkbox" class="tick" /><span
+                class="customize"
+              ></span
+            ></label>
+            <h3 class="pick-head cuProfile">Customizable Profile</h3>
+            <p class="pick-p">Custom theme on your profile</p>
+            <span class="amount amount3">+$2/mo</span>
+          </div>
+          <div class="bottom">
+            <div class="go-back">Go Back</div>
+            <div class="next-step">Next Step</div>
+          </div>
+        </div>
+        <!-- Step 3 end -->
+
+        <!-- Step 4 start -->
+        <div id="sidebar-end-4" class="sidebars">
+          <h1 class="header">Finishing up</h1>
+          <p class="subtext">
+            Double-check everything looks OK before confirming.
+          </p>
+          <div class="finish-box">
+            <div class="bills">
+              <div class="bill-1">
+                <div class="bill-head">
+                  <span class="arc"></span>(
+                  <span class="choosen">monthly</span>
+                  )
+                </div>
+                <p class="change">change</p>
+                <div class="bill-amount"></div>
+              </div>
+              <hr />
+              <div id="online-service">
+                <p class="online-service"></p>
+                <div class="online-amount"></div>
+              </div>
+              <div id="storage">
+                <p class="storage"></p>
+                <div class="storage-amount"></div>
+              </div>
+              <div id="cosProfile">
+                <p class="customized"></p>
+                <div class="cust-amount"></div>
+              </div>
+            </div>
+            <div id="total">
+              <p class="total">Total (per <span class="dur">month</span>)</p>
+              <div class="total-amount"></div>
+            </div>
+          </div>
+          <div class="bottom" id="last-bottom">
+            <div class="go-back">Go Back</div>
+            <div class="confirm">confirm</div>
+          </div>
+        </div>
+
+        <!-- Step 4 end -->
+
+        <!-- Step 5 start -->
+        <div id="sidebar-end-5" class="sidebars">
+          <img src="assets/images/icon-thank-you.svg" alt="thank-you" />
+          <h1 class="thank-you">Thank you!</h1>
+          <p class="thanks">
+            Thanks for confirming your subscription! We hope you have fun using
+            our platform. If you ever need support, please feel free to email us
+            at support@loremgaming.com.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 5 end -->
+
+    <div class="attribution">
+      Challenge by
+      <a href="https://www.frontendmentor.io?ref=challenge" target="_blank"
+        >Frontend Mentor</a
+      >. Coded by <a href="#">Oshodi Abdulmumin</a>.
+    </div>
+  </body>
+  <script type="text/javascript">
+    const sideBar = document.querySelectorAll(".side-bar .side");
+    const sideBarEnd = document.querySelectorAll(".sidebar-end .sidebars");
+    const email = document.querySelector(".email-input");
+    const nextStep = document.querySelectorAll(".next-step");
+    const sideBarIndex = document.querySelectorAll(".side-bar span");
+    const emailError = document.querySelector("#lab .email-error");
+    const pError = document.querySelector("#lab .pError");
+    const phoneBox = document.querySelector(".phone-input");
+    const emailInput = document.querySelector(".email-input");
+    const nameInput = document.querySelector(".name-input");
+    const formInput = document.querySelectorAll("form input");
+    const plans = document.querySelectorAll(".plans");
+    const monthly = document.querySelector(".monthly");
+    const yearly = document.querySelector(".yearly");
+    const checkbox = document.querySelector(".checkbox");
+    const addOns = document.querySelectorAll(".add-ons");
+    const tick = document.querySelectorAll(".tick");
+    const amount1 = document.querySelector(".amount1");
+    const amount2 = document.querySelector(".amount2");
+    const amount3 = document.querySelector(".amount3");
+    const arcadeText = document.querySelector(".arcade");
+    const advanceText = document.querySelector(".advanced");
+    const proText = document.querySelector(".pro");
+    const adPrice = document.querySelector(".adPrice");
+    const arPrice = document.querySelector(".arPrice");
+    const prPrice = document.querySelector(".prPrice");
+    const onService = document.querySelector(".onService");
+    const largStorage = document.querySelector(".largStorage");
+    const cuProfile = document.querySelector(".cuProfile");
+    const choosenPlan = document.querySelector(".arc");
+    const choosenTime = document.querySelector(".choosen");
+    const billAmount = document.querySelector(".bill-amount");
+    const onlineService = document.querySelector(".online-service");
+    const onlineAmount = document.querySelector(".online-amount");
+    const largerStorage = document.querySelector(".storage");
+    const storageAmount = document.querySelector(".storage-amount");
+    const customized = document.querySelector(".customized");
+    const custAmount = document.querySelector(".cust-amount");
+    const totalAmount = document.querySelector(".total-amount");
+    const change = document.querySelector(".change");
+    const duration = document.querySelector(".dur");
+    const confirm = document.querySelector(".confirm");
+    const goBack = document.querySelectorAll(".go-back");
+    const freeMonths = document.querySelectorAll(".free-months");
+
+    let selectedBox = [...sideBarEnd];
+    let selector = [...sideBar];
+    let next = [...nextStep];
+    let sideIndex = [...sideBarIndex];
+    let inputs = [...formInput];
+    let billPlans = [...plans];
+    let addOn = [...addOns];
+    let ticks = [...tick];
+    let gooBack = [...goBack];
+    let freeMonth = [...freeMonths];
+    let values = { name: "", email: "", number: "" };
+    const year = {
+      online: "+$10/yr",
+      storage: "+$20/yr",
+      profile: "+$20/yr",
+    };
+    const month = {
+      online: "+$1/mo",
+      storage: "+$2/mo",
+      profile: "+$2/mo",
+    };
+    const yearPlan = {
+      arcade: "$90/yr",
+      advanced: "$120/yr",
+      pro: "$150/yr",
+    };
+    const monthPlan = {
+      arcade: "$9/mo",
+      advanced: "$12/mo",
+      pro: "$15/mo",
+    };
+    selector.map((x) => {
+      x.addEventListener("click", () => {
+        sideIndex.map((index, i, arr) => {
+          let nw = i + 1;
+          if (x.id.slice(-1) == nw) {
+            index.style.backgroundColor = "hsl(206, 94%, 87%)";
+            index.style.color = "#000";
+          } else {
+            index.style.backgroundColor = "transparent";
+            index.style.color = "#fff";
+          }
+        });
+        selectedBox.map((box, i, arr) => {
+          if (x.id.slice(-1) === box.id.slice(-1)) {
+            arr[i].style.display = "grid";
+          } else {
+            arr[i].style.display = "none";
+          }
+        });
+      });
+    });
+
+    nameInput.addEventListener("change", (e) => {
+      const value = e.target.value;
+      values.name = value;
+    });
+    emailInput.addEventListener("change", (e) => {
+      const value = e.target.value;
+      values.email = value;
+    });
+    phoneBox.addEventListener("change", (e) => {
+      const value = e.target.value;
+      values.number = value;
+    });
+
+    const nextPageHandler = (index) => {
+      sideIndex.map((inde, i, arr) => {
+        let diff = i - index;
+        if (diff === 1) {
+          inde.style.backgroundColor = "hsl(206, 94%, 87%)";
+          inde.style.color = "#000";
+        } else {
+          inde.style.backgroundColor = "transparent";
+          inde.style.color = "#fff";
+        }
+      });
+      let ind = index + 1;
+      selectedBox.map((box, i, arr) => {
+        arr[ind].style.display = "grid";
+        arr[index].style.display = "none";
+      });
+    };
+
+    next.map((toNextPage, index) => {
+      if (index === 0) {
+        toNextPage.addEventListener("click", () => {
+          if (values.name == "") {
+            nameInput.classList.toggle("input-error");
+          } else if (values.email == "") {
+            emailInput.classList.toggle("input-error");
+            emailError.innerHTML = "This field is required";
+          } else if (values.number == "") {
+            phoneBox.classList.toggle("input-error");
+            pError.innerHTML = "This field is required";
+          } else {
+            nextPageHandler(index);
+          }
+        });
+      } else if (index === 1) {
+        toNextPage.addEventListener("click", () => {
+          const plan1 = billPlans[0].classList.value.includes("plans-active");
+          const plan2 = billPlans[1].classList.value.includes("plans-active");
+          const plan3 = billPlans[2].classList.value.includes("plans-active");
+          if (plan1 || plan2 || plan3) {
+            nextPageHandler(index);
+          } else {
+            selectedBox[1].style.display = "grid";
+          }
+        });
+      } else if (index === 2) {
+        toNextPage.addEventListener("click", () => {
+          const tick1 = ticks[0].checked;
+          const tick2 = ticks[1].checked;
+          const tick3 = ticks[2].checked;
+          if (tick1 || tick2 || tick3) {
+            nextPageHandler(index);
+            const first = parseInt(billAmount.innerHTML.slice(1, -3));
+            const second = parseInt(onlineAmount.innerHTML.slice(2, -3));
+            const third = parseInt(storageAmount.innerHTML.slice(2, -3));
+            const forth = parseInt(custAmount.innerHTML.slice(2, -3));
+            const total = [first, second, third, forth];
+            let final = total.reduce((prev, curr) => {
+              return (prev || 0) + (curr || 0);
+            });
+            const lastThree = billAmount.innerHTML.slice(-3);
+            totalAmount.innerHTML =
+              "+$" + String(final) + (lastThree == "/yr" ? "/year" : "/month");
+          } else {
+            selectedBox[2].style.display = "grid";
+          }
+        });
+      } else {
+        toNextPage.addEventListener("click", () => {
+          nextPageHandler(index);
+        });
+      }
+    });
+
+    email.addEventListener("change", (e) => {
+      const value = e.target.value;
+      if (value.slice(-4) !== ".com") {
+        email.classList.toggle("input-error");
+        emailError.innerHTML = "Invalid Email";
+      } else {
+        email.classList.toggle("email-input");
+        emailError.innerHTML = "";
+      }
+    });
+
+    billPlans.map((plan, i, arr) => {
+      plan.addEventListener("click", () => {
+        if (i === 0) {
+          plan.classList.toggle("plans-active");
+          arr[1].classList.remove("plans-active");
+          arr[2].classList.remove("plans-active");
+          const arPris = arPrice.innerHTML;
+          const arcadeTet = arcadeText.innerHTML;
+          billAmount.innerHTML = arPris;
+          choosenPlan.innerHTML = arcadeTet;
+        } else if (i === 1) {
+          plan.classList.toggle("plans-active");
+          arr[0].classList.remove("plans-active");
+          arr[2].classList.remove("plans-active");
+          const adPris = adPrice.innerHTML;
+          const advancedTet = advanceText.innerHTML;
+          billAmount.innerHTML = adPris;
+          choosenPlan.innerHTML = advancedTet;
+        } else if (i === 2) {
+          plan.classList.toggle("plans-active");
+          arr[1].classList.remove("plans-active");
+          arr[0].classList.remove("plans-active");
+          const prPris = prPrice.innerHTML;
+          const proTet = proText.innerHTML;
+          billAmount.innerHTML = prPris;
+          choosenPlan.innerHTML = proTet;
+        }
+      });
+    });
+
+    checkbox.addEventListener("click", () => {
+      if (checkbox.checked === true) {
+        yearly.style.fontWeight = "700";
+        monthly.style.fontWeight = "400";
+        amount1.innerHTML = year.online;
+        amount2.innerHTML = year.storage;
+        amount3.innerHTML = year.profile;
+        choosenTime.innerHTML = "yearly";
+        duration.innerHTML = "year";
+        freeMonth.map((free) => {
+          free.innerHTML = "2 months free";
+        });
+        arPrice.innerHTML = yearPlan.arcade;
+        adPrice.innerHTML = yearPlan.advanced;
+        prPrice.innerHTML = yearPlan.pro;
+        billPlans.map((plan, i, arr) => {
+          plan.classList.remove("plans-active");
+        });
+      } else {
+        monthly.style.fontWeight = "700";
+        yearly.style.fontWeight = "400";
+        choosenTime.innerHTML = "monthly";
+        duration.innerHTML = "month";
+        amount1.innerHTML = month.online;
+        amount2.innerHTML = month.storage;
+        amount3.innerHTML = month.profile;
+        freeMonth.map((free) => {
+          free.innerHTML = "";
+        });
+        arPrice.innerHTML = monthPlan.arcade;
+        adPrice.innerHTML = monthPlan.advanced;
+        prPrice.innerHTML = monthPlan.pro;
+        billPlans.map((plan, i, arr) => {
+          plan.classList.remove("plans-active");
+        });
+      }
+    });
+
+    addOn.map((addBox, index) => {
+      addBox.addEventListener("click", () => {
+        addBox.classList.toggle("addon-active");
+        ticks.map((check, i, arr) => {
+          arr[index].checked == false
+            ? (arr[index].checked = true)
+            : (arr[index].checked = false);
+        });
+        if (index === 0) {
+          const serve = onService.innerHTML;
+          const firstService = amount1.innerHTML;
+          onlineService.innerHTML = serve;
+          onlineAmount.innerHTML = firstService;
+        } else if (index === 1) {
+          largerStorage.innerHTML = largStorage.innerHTML;
+          storageAmount.innerHTML = amount2.innerHTML;
+        } else if (index === 2) {
+          customized.innerHTML = cuProfile.innerHTML;
+          custAmount.innerHTML = amount3.innerHTML;
+        }
+      });
+    });
+
+    change.addEventListener("click", () => {
+      selectedBox.map((box, i, arr) => {
+        arr[1].style.display = "grid";
+        box.style.display = "none";
+      });
+      sideIndex.map((inde, i, arr) => {
+        arr[1].style.backgroundColor = "hsl(206, 94%, 87%)";
+        arr[1].style.color = "#000";
+        inde.style.backgroundColor = "transparent";
+        inde.style.color = "#fff";
+      });
+    });
+    confirm.addEventListener("click", () => {
+      selectedBox.map((box, i, arr) => {
+        arr[4].style.display = "block";
+        arr[3].style.display = "none";
+      });
+    });
+
+    gooBack.map((back, index, arr) => {
+      back.addEventListener("click", () => {
+        sideIndex.map((inde, i, arr) => {
+          let inc = i - 1;
+          let diff = index - inc;
+          if (diff === 1) {
+            inde.style.backgroundColor = "hsl(206, 94%, 87%)";
+            inde.style.color = "#000";
+          } else {
+            inde.style.backgroundColor = "transparent";
+            inde.style.color = "#fff";
+          }
+        });
+        let ind = index + 1;
+        selectedBox.map((box, i, arr) => {
+          arr[index].style.display = "grid";
+          arr[ind].style.display = "none";
+        });
+      });
+    });
+  </script>
+</html>
