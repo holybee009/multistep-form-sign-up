@@ -33,8 +33,8 @@ Users should be able to:
 
 ### Links
 
-- Solution URL: [Add solution URL here](https://your-solution-url.com)
-- Live Site URL: [Add live site URL here](https://your-live-site-url.com)
+- Solution URL: https://github.com/holybee009/news-letter-sign-up-with-success-message
+- Live Site URL: https://multistep-form-sign-up.netlify.app/
 
 ## My process
 
